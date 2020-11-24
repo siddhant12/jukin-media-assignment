@@ -122,7 +122,9 @@ public class CovidRestControllerTest {
     }
 
 
-
+    /**
+     * Test case for get comments for country by name
+     */
     @Test
     void getCommentByNameTest(){
         Mockito.when(covidDetailsService.getCommentByName(COUNTRY_NAME)).thenReturn(getCommentsList_Mock());
@@ -130,6 +132,9 @@ public class CovidRestControllerTest {
         Assert.assertNotNull(commentList);
     }
 
+    /**
+     * Test case get add comments for country by code
+     */
     @Test
     void getCommentByCodeTest(){
         Mockito.when(covidDetailsService.getCommentByCode(ALPHA_2_CODE)).thenReturn(getCommentsList_Mock());
@@ -137,6 +142,9 @@ public class CovidRestControllerTest {
         Assert.assertNotNull(commentList);
     }
 
+    /**
+     * Test case for get country name code map
+     */
     @Test
     void getCountriesCodeMapTest(){
         Mockito.when(covidDetailsService.getCountriesCodeMap()).thenReturn(getCountriesCodeMap_Mock());

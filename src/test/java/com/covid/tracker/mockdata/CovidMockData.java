@@ -5,6 +5,8 @@ import com.covid.tracker.model.Country;
 import com.covid.tracker.model.CovidData;
 import com.covid.tracker.model.CovidTotal;
 import org.bson.types.ObjectId;
+import org.springframework.ui.ConcurrentModel;
+import org.springframework.ui.Model;
 
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -137,5 +139,8 @@ public class CovidMockData {
         return countryList;
     }
 
+    public static Model getModel_Mock(){
+        return new ConcurrentModel();
+    }
 
 }
