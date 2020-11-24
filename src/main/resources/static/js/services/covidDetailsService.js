@@ -12,7 +12,6 @@ covidApp.service('covidDetailsService',function($http){
 		this.loadCountryDataByCode = function(code){
 			return $http.get('/covidDetailsByCode/'+code).then(success,error);
 		}
-		
 		this.getTotal  = function(){
 			var totalData =  $http.get('/covidDetails').then(success,error);
 			return totalData;
