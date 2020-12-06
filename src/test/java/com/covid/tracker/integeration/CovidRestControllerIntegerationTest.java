@@ -23,6 +23,10 @@ import java.util.Map;
 import static com.covid.tracker.mockdata.CovidMockData.getCountry_Mock;
 
 
+/**
+ * We can also assert our integration test cases with the expected response from the API
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CovidTrackerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CovidRestControllerIntegerationTest {
@@ -30,12 +34,17 @@ public class CovidRestControllerIntegerationTest {
     @LocalServerPort
     private int port;
 
+    /**
+     * Added this for future purpose so that we can do integration test for database and repository
+     */
     @Autowired
     private CovidDataRepository covidDataRepository;
 
     TestRestTemplate restTemplate = new TestRestTemplate();
 
     HttpHeaders headers = new HttpHeaders();
+
+
 
     /**
      * Integration Test case for Get All Countries

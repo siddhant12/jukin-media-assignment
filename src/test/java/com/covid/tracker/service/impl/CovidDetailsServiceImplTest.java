@@ -26,6 +26,9 @@ import java.util.*;
 
 import static com.covid.tracker.mockdata.CovidMockData.*;
 
+/**
+ * We can also assert our unit test cases with the expected response from the methods
+ */
 
 @SpringBootTest
 public class CovidDetailsServiceImplTest {
@@ -53,6 +56,7 @@ public class CovidDetailsServiceImplTest {
     public static final String NAME = "name";
     public static final String CODE = "code";
     public static final String COMMENT = "comment";
+
 
     /**
      * Test case for get all countries

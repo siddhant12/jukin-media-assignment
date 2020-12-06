@@ -14,6 +14,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Class for creating mock objects
+ */
 public class CovidMockData {
 
     public static final String COUNTRY_NAME = "India";

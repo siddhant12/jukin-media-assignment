@@ -18,6 +18,10 @@ import java.util.Set;
 
 import static com.covid.tracker.mockdata.CovidMockData.*;
 
+/**
+ * We can also assert our unit test cases with the expected response from the API
+ */
+
 @SpringBootTest
 public class CovidRestControllerTest {
 
@@ -26,6 +30,7 @@ public class CovidRestControllerTest {
 
     @Mock
     private CovidDetailsServiceImpl covidDetailsService;
+
 
     /**
      * Test case for Get All Countries

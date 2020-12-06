@@ -27,6 +27,11 @@ import java.util.List;
 
 import static com.covid.tracker.mockdata.CovidMockData.*;
 
+
+/**
+ * We can also assert our unit test cases with the expected response from the methods
+ */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class CovidRestServiceImplTest {
@@ -47,6 +52,7 @@ public class CovidRestServiceImplTest {
        ReflectionTestUtils.setField(covidRestService, "apiHost", "covid-19-data.p.rapidapi.com");
        ReflectionTestUtils.setField(covidRestService, "apiKey", "cc119a2a07mshb6adc33a3e346b9p1c17e8jsn6e17f47f3331");
     }
+
 
     /**
      * Test case for get List of countries

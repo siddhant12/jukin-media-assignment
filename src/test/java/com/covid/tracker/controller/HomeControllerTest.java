@@ -7,6 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.covid.tracker.mockdata.CovidMockData.getModel_Mock;
 
+/**
+ * We can also assert our unit test cases with the expected response from the API
+ */
+
+
 @SpringBootTest
 public class HomeControllerTest {
 
