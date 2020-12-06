@@ -1,11 +1,11 @@
-package com.covid.tracker.repsitory;
+package com.covid.tracker.service.impl;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bson.types.ObjectId;
+import com.covid.tracker.service.CovidRestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,32 +23,31 @@ import org.springframework.web.client.RestTemplate;
 import com.covid.tracker.model.Country;
 import com.covid.tracker.model.CovidData;
 import com.covid.tracker.model.CovidTotal;
-import com.covid.tracker.model.exception.CovidException;
 import com.covid.tracker.model.exception.CovidRapidAPIException;
 
 @Repository
-public class CovidRestRepositoryImpl implements CovidRestRepository {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CovidRestRepositoryImpl.class);
+public class CovidRestServiceImpl implements CovidRestService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CovidRestServiceImpl.class);
 
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Value("https://covid-19-data.p.rapidapi.com/help/countries?format=json")
+	@Value("${get.countries.api.url}")
 	private String countriesApiUrl;
 
-	@Value("https://covid-19-data.p.rapidapi.com/totals?format=json")
+	@Value("${get.total.api.url}")
 	private String totalApiUrl;
 
-	@Value("https://covid-19-data.p.rapidapi.com/country?format={format}&name={name}")
+	@Value("${get.covid.name.api.url}")
 	private String covidByNameUrl;
 
-	@Value("https://covid-19-data.p.rapidapi.com/country/code?format={format}&code={code}")
+	@Value("${get.covid.code.api.url}")
 	private String covidByCodeUrl;
 
-	@Value("covid-19-data.p.rapidapi.com")
+	@Value("${api.host}")
 	private String apiHost;
 
-	@Value("cc119a2a07mshb6adc33a3e346b9p1c17e8jsn6e17f47f3331")
+	@Value("${api.key}")
 	private String apiKey;
 
 	@Override

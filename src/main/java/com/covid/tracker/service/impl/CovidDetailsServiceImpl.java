@@ -1,4 +1,4 @@
-package com.covid.tracker.service;
+package com.covid.tracker.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.covid.tracker.service.CovidDetailsService;
+import com.covid.tracker.service.CovidRestService;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +33,6 @@ import com.covid.tracker.model.exception.CovidRapidAPIException;
 import com.covid.tracker.repsitory.ApiHistoryRepository;
 import com.covid.tracker.repsitory.CountryRepository;
 import com.covid.tracker.repsitory.CovidDataRepository;
-import com.covid.tracker.repsitory.CovidRestRepository;
 import com.covid.tracker.repsitory.TotalRepository;
 
 @Service
@@ -46,7 +47,7 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 	private TotalRepository totalRepository;
 
 	@Autowired
-	private CovidRestRepository covidRestRepository;
+	private CovidRestService covidRestService;
 
 	@Autowired
 	private CovidDataRepository covidDataRepository;
@@ -63,11 +64,13 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 		List<Country> countriesInDB = new ArrayList<>();
 		try {
 			if(fetchDb) {
-				return countryRepository.findAll();
+				//countryRepository.findAll();
+				return countryRepository.findAllByOrderByFavouriteDescName();
 			}
 			if (isOutdated) {
-				countries = covidRestRepository.getListOfCountries();
-				countriesInDB = countryRepository.findAll();
+				countries = covidRestService.getListOfCountries();
+				//countryRepository.findAll();
+				countriesInDB = countryRepository.findAllByOrderByFavouriteDescName();
 				List<String> countriesName = countriesInDB.stream().map(Country::getName).collect(Collectors.toList());
 
 				countriesInDB.addAll(countries.stream().filter(o -> !countriesName.contains(o.getName()))
@@ -77,7 +80,8 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 				isOutdated = false;
 
 			} else {
-				countriesInDB = countryRepository.findAll();
+				//countryRepository.findAll();
+				countriesInDB = countryRepository.findAllByOrderByFavouriteDescName();
 			}
 
 		} catch (CovidRapidAPIException e) {
@@ -102,7 +106,7 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 				return totalRepository.findAll();
 			}
 			if (isOutdated) {
-				covidDetails = covidRestRepository.getTotal();
+				covidDetails = covidRestService.getTotal();
 				final CovidTotal totals = covidDetails.get(0);
 				covidDetailsInDB = totalRepository.findAll();
 				// There will always be one record
@@ -181,7 +185,7 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 			}
 			if (isOutdated) {
 				covidDataInDB = covidDataRepository.findByCountry(name);
-				covidData = covidRestRepository.getCovidDataByName(name);
+				covidData = covidRestService.getCovidDataByName(name);
 				if (!CollectionUtils.isEmpty(covidData)) {
 					covidDataInDB = CovidData.copy(covidData.get(0), covidDataInDB);
 
@@ -214,7 +218,7 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 			}
 			if (isOutdated) {
 				covidDataInDB = covidDataRepository.findByCode(code);
-				List<CovidData> covidDataFromService = covidRestRepository.getCovidDataByCode(code);
+				List<CovidData> covidDataFromService = covidRestService.getCovidDataByCode(code);
 				// covidDataInDB = CovidData.copy(covidData, covidDataInDB);
 				if (CollectionUtils.isEmpty(covidDataFromService)) {
 					// throw exception from here or message
@@ -275,7 +279,7 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 	@Override
 	public Map<String, Set<String>> getCountriesCodeMap() {
 		try {
-			List<Country> countries = countryRepository.findAll();
+			/*List<Country> countries = countryRepository.findAll();
 			if (CollectionUtils.isEmpty(countries)) {
 				// call countries services
 				countries = getCountries(false);
@@ -283,6 +287,11 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 					return Collections.emptyMap();
 				}
 				countryRepository.saveAll(countries);
+			}*/
+
+			List<Country> countries = getCountries(false);
+			if (CollectionUtils.isEmpty(countries)) {
+				return Collections.emptyMap();
 			}
 
 			Map<String, Set<String>> countriesCodeMap = new HashMap<>();
@@ -293,6 +302,8 @@ public class CovidDetailsServiceImpl implements CovidDetailsService {
 				updateMapIfKeyNotPresent("countries", countriesCodeMap, country.getName());
 			}
 			return countriesCodeMap;
+		} catch (CovidRapidAPIException e) {
+			throw new CovidRapidAPIException(HttpStatus.INTERNAL_SERVER_ERROR, "Excpetion occurred while getting data from Rapid API", e.getDetailedMessage());
 		} catch (Exception e) {
 			throw new CovidException(String.format("Error Occurred while executing query please check"), e);
 		}

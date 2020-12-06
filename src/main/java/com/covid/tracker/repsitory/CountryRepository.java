@@ -6,8 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import com.covid.tracker.model.Country;
 
+import java.util.List;
+
 @Repository
 public interface CountryRepository extends MongoRepository<Country, ObjectId> {
 	
 	public Country findByName(String name);
+	List<Country> findAllByOrderByFavouriteDescName();
 }

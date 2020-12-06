@@ -15,7 +15,7 @@ public class CovidRestControllerAdvice extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = { CovidRapidAPIException.class})
 	protected ResponseEntity<Object> handleException(CovidRapidAPIException ex, WebRequest request) {
-		String bodyOfResponse = ex.getMessage();
+		String bodyOfResponse = ex.getError();
 		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), ex.getStatus(), request);
 	}
 	

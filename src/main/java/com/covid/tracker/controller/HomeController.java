@@ -12,4 +12,19 @@ public class HomeController {
 		return "homePage";
 	}
 
+	@GetMapping(value = { "/country" })
+	public String getCountryPage(Model model) {
+		return "country";
+	}
+
+	@GetMapping(value = { "/countryByName" })
+	public String getCountryByName(Model model) {
+		return "countryByName";
+	}
+
+	@GetMapping(value = { "/countryByCode" })
+	public String getCountryByCode(Model model) {
+		return "countryByCode";
+	}
+
 }
